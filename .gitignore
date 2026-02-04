@@ -1,0 +1,27 @@
+# Vite cache
+.vite/
+.vite/deps/
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# Python virtual environments
+venv/
+.venv/
+Microservice/venv/
+miv/
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Node / Frontend
+frontend/node_modules/
+backend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.vite/
+
