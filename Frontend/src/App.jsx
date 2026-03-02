@@ -1,4 +1,8 @@
-const _jsxFileName = "Frontend/src/App.tsx";import { useState, } from "react";
+import React from "react";
+
+const _jsxFileName = "Frontend/src/App.jsx";
+
+import { useState, } from "react";
 import StarField from "./components/StarField";
 import Sidebar from "./components/Sidebar";
 import Chat from "./components/Chat";

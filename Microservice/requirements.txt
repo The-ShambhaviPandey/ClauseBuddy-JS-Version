@@ -1,4 +1,23 @@
-fastapi==0.116.2
-uvicorn==0.33.0
-PyPDF2==3.0.1
-python-multipart==0.0.9
+# Core API packages
+fastapi==0.111.0
+uvicorn==0.23.2  # ASGI server
+
+# File handling
+python-multipart==0.0.6
+PyPDF2==3.1.1
+
+# ML / AI
+torch==2.1.0
+transformers==4.43.0
+huggingface-hub==0.16.4
+numpy==1.26.1
+faiss-cpu==1.7.4
+pydantic==1.10.9
+
+# Deployment
+gunicorn==22.2.2
+
+# Testing
+pytest==8.3.0
+
+# Versions are listed for reproducibility; update as needed.

@@ -1,4 +1,4 @@
-const _jsxFileName = "Frontend/src/main.tsx"; function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -11,16 +11,28 @@ function Root() {
   const [loading, setLoading] = useState(!clientId);
 
   useEffect(() => {
-    if (clientId) return; // already provided via env
+    if (clientId) {
+      console.log("Google Client ID loaded from environment");
+      return;
+    }
+    
     const fetchClientId = async () => {
       try {
+        console.log("Fetching Google Client ID from backend...");
         const res = await fetch("http://localhost:5000/api/auth/google-client-id");
         if (res.ok) {
           const data = await res.json();
-          if (_optionalChain([data, 'optionalAccess', _2 => _2.clientId])) setClientId(data.clientId);
+          if (data?.clientId) {
+            console.log("Google Client ID received from backend");
+            setClientId(data.clientId);
+          } else {
+            console.error("No clientId in response from backend");
+          }
+        } else {
+          console.error("Failed to fetch client ID from backend:", res.status, res.statusText);
         }
-      } catch (_) {
-        // ignore
+      } catch (error) {
+        console.error("Error fetching Google Client ID:", error);
       } finally {
         setLoading(false);
       }
@@ -28,16 +40,19 @@ function Root() {
     fetchClientId();
   }, [clientId]);
 
-  if (!clientId && loading) return null;
+  if (!clientId) {
+    if (loading) return null;
+    console.error("Google Client ID is not available");
+    return React.createElement('div', { style: { padding: '20px', color: 'red' } }, "Error: Google Client ID not configured");
+  }
 
   return (
-    React.createElement(React.StrictMode, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 34}}
-      , React.createElement(GoogleOAuthProvider, { clientId: clientId || "", __self: this, __source: {fileName: _jsxFileName, lineNumber: 35}}
-        , React.createElement(App, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 36}} )
+    React.createElement(React.StrictMode, {__self: this, __source: {fileName: "Frontend/src/main.jsx", lineNumber: 48}}
+      , React.createElement(GoogleOAuthProvider, { clientId: clientId, __self: this, __source: {fileName: "Frontend/src/main.jsx", lineNumber: 49}}
+        , React.createElement(App, {__self: this, __source: {fileName: "Frontend/src/main.jsx", lineNumber: 50}} )
       )
     )
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(Root, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 42}} ));
-  
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(Root, {__self: this, __source: {fileName: "Frontend/src/main.jsx", lineNumber: 56}} ));

@@ -1,33 +1,19 @@
-const _jsxFileName = "Frontend/src/contexts/AuthContext.tsx";import React, { createContext, useContext, useState, useEffect, } from 'react';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
 
 const AuthContext = createContext(undefined);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
-
-
-
-
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -35,8 +21,8 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check for stored token on app load
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem("token");
+
     if (storedToken) {
       setToken(storedToken);
       fetchUser(storedToken);
@@ -47,23 +33,25 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async (authToken) => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/me', {
-        headers: {
-          'Authorization': `Bearer ${authToken}`
+      const response = await fetch(
+        "http://localhost:5000/api/auth/me",
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
         }
-      });
+      );
 
       if (response.ok) {
         const userData = await response.json();
         setUser(userData);
       } else {
-        // Token is invalid, clear it
-        localStorage.removeItem('token');
+        localStorage.removeItem("token");
         setToken(null);
       }
     } catch (error) {
-      console.error('Error fetching user:', error);
-      localStorage.removeItem('token');
+      console.error("Error fetching user:", error);
+      localStorage.removeItem("token");
       setToken(null);
     } finally {
       setLoading(false);
@@ -73,13 +61,13 @@ export const AuthProvider = ({ children }) => {
   const login = (authToken, userData) => {
     setToken(authToken);
     setUser(userData);
-    localStorage.setItem('token', authToken);
+    localStorage.setItem("token", authToken);
   };
 
   const logout = () => {
     setToken(null);
     setUser(null);
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
   };
 
   const value = {
@@ -87,12 +75,12 @@ export const AuthProvider = ({ children }) => {
     token,
     login,
     logout,
-    loading
+    loading,
   };
 
   return (
-    React.createElement(AuthContext.Provider, { value: value, __self: this, __source: {fileName: _jsxFileName, lineNumber: 94}}
-      , children
-    )
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
   );
 };

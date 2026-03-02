@@ -1,191 +1,160 @@
-# ⚖️ ClauseBuddy - LegalAI
+# ⚖️ ClauseBuddy — LegalAI
 
-[![Watch Demo](https://img.icons8.com/color/48/000000/video.png)](https://drive.google.com/file/d/1bSFBKTt3UUVE8fr9pqqHxm_RPo59NlTB/view?usp=sharing)  
-**🎬 Watch the demo video**
-
-LegalAI is an **AI-powered assistant** that helps analyze, summarize, and answer questions from **legal documents**.  
-It combines **domain-specific embeddings (InLegalBERT)** with **LLMs (Google Gemini)** and **semantic search (FAISS)** to make legal text easy to search, understand, and use.
+> **Submitted for:** Google Gen AI Hackathon 2025
+>
+> **⚠️ Disclaimer:** This project was originally submitted for the Google Gen AI Hackathon 2025. Subsequent changes have been made to the codebase as per our own requirements and preferences — the current version may no longer satisfy the original hackathon submission conditions.
 
 ---
 
-## Overview
+## 🎬 Demo & Presentation
 
-Legal documents are long, complex, and time-consuming to review.  
-**LegalAI** solves this by:
+| Resource               | Link                                                                                                |
+| ---------------------- | --------------------------------------------------------------------------------------------------- |
+| 📽️ Demo Video          | [ClauseBuddy Demo](https://github.com/user-attachments/assets/95c71770-e999-4da0-abb6-ff471c3df41c) |
+| 📊 Presentation Slides | [Prompt Pirates.pdf](https://github.com/user-attachments/files/25678977/Prompt.Pirates.pdf)         |
 
-- Extracting and chunking text from uploaded documents
-- Generating embeddings for semantic search
-- Summarizing key points with LLMs
-- Providing direct answers to user queries
+---
 
-This makes it useful for **lawyers, students, and professionals** who need faster insights into contracts, policies, and case files.
+## What is ClauseBuddy?
+
+ClauseBuddy is an AI-powered legal document assistant that helps lawyers, students, and professionals analyze, summarize, and query legal documents using natural language.
+
+It combines **domain-specific embeddings (InLegalBERT)**, **semantic vector search (FAISS)**, and **Google Gemini** to turn dense legal text into fast, searchable, and conversational insights.
 
 ---
 
 ## Features
 
-- Upload **legal PDFs or documents**
-- Automatic text extraction & chunking
-- **Semantic search** with FAISS & InLegalBERT
-- **Summaries and Q&A** powered by Gemini + Hugging Face
-- Modern chat-style frontend with file upload support
-- Works in both **offline (FAISS)** and **cloud-enabled** modes
+- Upload legal PDFs and extract structured text
+- Semantic search over document content using FAISS + InLegalBERT
+- Natural language Q&A and summarization via Gemini
+- Chat-style frontend with upload and history support
+- Google OAuth authentication
+- Multilingual-ready architecture
+
+---
+
+## How It Works
+
+```
+User (Frontend)
+    │
+    ▼
+Upload PDF / Ask Question
+    │
+    ▼
+Node.js Backend (API)
+    ├── Auth (JWT + Google OAuth)
+    ├── File handling & storage
+    └── Forwards text to Python Microservice
+            │
+            ▼
+    Python Microservice
+        ├── PDF text extraction
+        ├── Chunking
+        ├── InLegalBERT embeddings → FAISS index
+        └── Gemini API (Summarization / QnA)
+            │
+            ▼
+    Response → Backend → Frontend → User
+```
 
 ---
 
 ## Tech Stack
 
-**Frontend**
-
-- React / Next.js
-- Tailwind CSS + shadcn/ui
-
-**Backend**
-
-- Node.js + Express
-- Faiss (Vector DB)
-- MongoDB
-
-**AI/ML**
-
-- Google Gemini (summarization & QnA)
-- Hugging Face (InLegalBERT for embeddings)
-
-**Other Tools**
-
-- Google OAuth
-- Postman (API testing)
-- Git & GitHub (version control)
+| Layer     | Technologies                                     |
+| --------- | ------------------------------------------------ |
+| Frontend  | React, Vite, Tailwind CSS, shadcn/ui             |
+| Backend   | Node.js, Express, MongoDB, Passport.js           |
+| AI/ML     | Google Gemini, InLegalBERT (Hugging Face), FAISS |
+| Auth      | Google OAuth 2.0, JWT                            |
+| Dev Tools | Postman, Git/GitHub                              |
 
 ---
 
 ## Project Structure
 
-```bash
-LegalAI/
-│── backend/            # API routes, embeddings, text processing
-│── frontend/           # React/Next.js UI
-│── Microservice/       # Gemini, embeddings, Hugging Face models
-│── test_integration.js # Static files
-│── .env.example        # Example environment variables
-│── README.md           # Main documentation
 ```
+ClauseBuddy/
+├── Backend/            # Node.js REST API
+├── Frontend/           # React + Vite UI
+├── Microservice/       # Python AI/ML service
+├── TESTING.js          # Integration / API tests
+├── .gitignore
+└── README.md
+```
+
+See each subfolder's `README.md` for detailed setup instructions.
 
 ---
 
-## ⚡ Getting Started
+## Quick Start
 
-### 1️⃣ Clone the repository
+### 1. Clone the repo
 
 ```bash
-git clone https://github.com/your-username/LegalAI.git
-cd LegalAI
+git clone https://github.com/your-username/ClauseBuddy.git
+cd ClauseBuddy
 ```
 
-### 2️⃣ Install dependencies
-
-#### Backend
+### 2. Set up each service
 
 ```bash
-cd Backend
-npm install
-```
+# Backend
+cd Backend && npm install
 
-#### Frontend
+# Frontend
+cd ../Frontend && npm install
 
-```bash
-cd frontend
-npm install
-```
-
-#### Microservice (Python)
-
-```bash
-cd Microservice
+# Microservice
+cd ../Microservice
+python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 3️⃣ Setup environment variables
-
-Create a `.env` file inside `backend/` with:
-
-```env
-PORT=5000
-MONGO_URI=your-mongodb-uri
-GEMINI_API_KEY=your-gemini-key
-HF_API_KEY=your-huggingface-key
-```
-
-### 4️⃣ Run the app
-
-Backend
+### 3. Run all three services concurrently
 
 ```bash
-cd Backend
-npm start
+# Terminal 1
+cd Backend && npm start
+
+# Terminal 2
+cd Frontend && npm run dev
+
+# Terminal 3
+cd Microservice && python microservice.py
 ```
 
-Frontend
-
-```bash
-cd frontend
-npm run dev
-```
-
-Microservice
-
-```bash
-cd ai-service
-python app.py
-```
-
-Now open [http://localhost:5000](http://localhost:8000) 🎉
+Then open: [http://localhost:5173](http://localhost:5173)
 
 ---
 
-## Usage
+## Environment Variables
 
-1. **Upload** a legal document (PDF/DOC).
-2. Backend extracts and **splits text into chunks**.
-3. System generates embeddings and stores them in FAISS.
-4. User asks questions via chat UI.
-5. Relevant chunks retrieved → Gemini summarizes → provides answer.
+Each service has its own `.env` file. See the respective READMEs for the full list.
 
----
-
-## Process Flow
-
-```
-User → Frontend (Upload / Ask) → Backend (API) →
-Text Extraction → Embeddings (Hugging Face / InLegalBERT) →
-FAISS Vector DB → Query → Gemini (Summarization/QnA) →
-Answer → Frontend
-```
+| Service      | Key Variables                                                  |
+| ------------ | -------------------------------------------------------------- |
+| Backend      | `PORT`, `MONGODB_URI`, `JWT_SECRET`, `GOOGLE_CLIENT_ID/SECRET` |
+| Frontend     | `VITE_API_URL`, `VITE_GOOGLE_CLIENT_ID`                        |
+| Microservice | `HUGGINGFACE_API_KEY`, `GOOGLE_API_KEY`                        |
 
 ---
 
-## Contribution
+## Documentation & References
 
-We welcome contributions!
-
-1. Fork the repo
-2. Create a new branch (`feature-xyz`)
-3. Commit your changes
-4. Push & open a Pull Request
+- [Google Gemini API](https://ai.google.dev/docs)
+- [InLegalBERT on Hugging Face](https://huggingface.co/law-ai/InLegalBERT)
+- [FAISS by Meta](https://github.com/facebookresearch/faiss)
+- [Google OAuth 2.0](https://developers.google.com/identity/protocols/oauth2)
 
 ---
 
 ## License
 
-This project is licensed under the **MIT License**.
+MIT License — free to use, modify, and distribute.
 
 ---
 
-## Acknowledgements
-
-- [Google Gemini](https://ai.google)
-- [Google OAuth](https://developers.google.com/identity/protocols/oauth2)
-- [Hugging Face](https://huggingface.co)
-- [FAISS](https://github.com/facebookresearch/faiss)
-
----
+_Built with ❤️ for the Google Gen AI Hackathon 2025._

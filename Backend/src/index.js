@@ -1,5 +1,6 @@
-import dotenv from "dotenv";
-dotenv.config();
+import 'dotenv/config';
+
+
 
 import express from "express";
 import path from "path";
@@ -10,6 +11,11 @@ import "./config/passport.js";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
+
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // New imports for file upload
 import multer from "multer";
@@ -113,19 +119,6 @@ app.post("/api/upload", upload.array("files", 2), async (req, res) => {
     res.status(500).json({ error: "Internal Server Error", details: err });
   }
 });
-
-// Serve frontend build
-app.use(express.static(path.join(__dirname, "build")));
-app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
-app.use(cors({
-  origin: "https://clause-buddy-ai.vercel.app/",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
-
 
 // Start Server
 const PORT = process.env.PORT || 3000;
