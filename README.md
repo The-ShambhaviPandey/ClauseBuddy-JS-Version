@@ -10,7 +10,7 @@
 
 | Resource               | Link                                                                                                |
 | ---------------------- | --------------------------------------------------------------------------------------------------- |
-| 📽️ Demo Video          | [ClauseBuddy Demo](https://github.com/user-attachments/assets/95c71770-e999-4da0-abb6-ff471c3df41c) |
+| 📽️ Demo Video          | [ClauseBuddy Demo](https://github.com/user-attachments/assets/31b7d305-dd35-491a-af87-3740a1020df8) |
 | 📊 Presentation Slides | [Prompt Pirates.pdf](https://github.com/user-attachments/files/25678977/Prompt.Pirates.pdf)         |
 
 ---
